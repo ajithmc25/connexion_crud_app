@@ -1,0 +1,138 @@
+openapi: 3.0.0
+info:
+  title:  Hyperreality Assignment API
+  description: A RESTful API for the CRUD operations for a single model
+  version: 1.0.0
+servers:
+  - url: http://localhost:8081/
+paths:
+  /users/:
+    get:
+      operationId: user.users_get
+      summary: Returns a list of users.
+      description: List of all the users available
+      responses:
+        '200':
+          description: A JSON array of user names
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+    post:
+      operationId: user.users_post
+      summary: Creates a user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: Created
+
+  /users/{userId}/:
+    get:
+      operationId: user.user_get
+      summary: Returns a user by ID.
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: ID of user
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: A user object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: The specified user ID is invalid (not a number).
+        '404':
+          description: The user with the specified IS was not found.
+        default:
+          description: Unexpected error
+
+    patch:
+      operationId: user.user_put
+      summary: Updates a user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: John Wick
+                checked:
+                  type: boolean
+                type:
+                  type: string
+                  example: Admin
+                age:
+                  type: integer
+                  format: int64
+                  example: 30
+                description:
+                  type: string
+                  example: Sample Description
+                date:
+                  type: string
+      responses:
+        '201':
+          description: Created
+
+    delete:
+      operationId: user.user_delete
+      summary: Delete a user from the people list
+      description: Delete a user
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: ID of user
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        200:
+          description: Successfully deleted a user
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 4
+        name:
+          type: string
+          example: John Wick
+        checked:
+          type: boolean
+        type:
+          type: string
+          example: Admin
+        age:
+          type: integer
+          format: int64
+          example: 30
+        description:
+          type: string
+          example: Sample Description
+        date:
+          type: string
+      required:
+        - name
