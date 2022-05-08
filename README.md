@@ -7,8 +7,14 @@
 Follow these instructions to run this project locally
 
 - Create a virtual environment using python venv
+```bash
+python -m venv env
+```
 
 - Activate the virtual env
+```bash
+source ./env/bin/activate
+```
 
 - Install requirements in env
 
