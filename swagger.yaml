@@ -61,8 +61,17 @@ paths:
           description: Unexpected error
 
     patch:
-      operationId: user.user_put
+      operationId: user.user_patch
       summary: Updates a user.
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: ID of user
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
       requestBody:
         required: true
         content:

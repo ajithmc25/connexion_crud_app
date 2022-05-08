@@ -1,46 +1,51 @@
-import pytest
-from flask_sqlalchemy import SQLAlchemy
-
-from connection import connex_app
-from models import User
-
-
-@pytest.fixture(scope='module')
-def client():
-    app = connex_app.create_app()
-
-    app.config["TESTING"] = True
-    app.testing = True
-
-    # This creates an in-memory sqlite db
-    # See https://martin-thoma.com/sql-connection-strings/
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite://"
-
-    client = app.test_client()
-    db = SQLAlchemy(app)
-    with app.app_context():
-        db.create_all()
-        user1 = User(name="Cedric")
-        db.session.add(user1)
-        db.session.commit()
-    yield client
-
-
 def test_create_users(client):
+    # CREATE
     user_data = {'name': 'William'}
     response = client.post('/users/', json=user_data)
-    print(response)
-    print(response.json)
     assert response.json == {'age': None, 'checked': None, 'date': None, 'description': None, 'id': 1, 'name': 'William', 'type': None}
 
 
+def test_create_user_with_same_name(client):
+    # CREATE
+    user_data = {'name': 'William'}
+    response = client.post('/users/', json=user_data)
+    assert response.json['detail'] == 'User William exists already'
+
+
 def test_list_users_api(client):
+    # READ
     response = client.get('/users/')
-    print(response)
     print(response.json)
     assert response.json == [{'age': None, 'checked': None, 'date': None, 'description': None, 'id': 1, 'name': 'William', 'type': None}]
 
 
-# def test_retrieve_user_api(client):
-#     response = client.get('/users/1/')
-#     assert response.json['id'] == 1
+def test_retrieve_user_api(client):
+    # READ
+    response = client.get('/users/1/')
+    assert response.json['id'] == 1
+
+
+def test_update_user_api(client):
+    # UPDATE
+    user_data = {'checked': True}
+    response = client.patch('/users/1/', json=user_data)
+    assert response.json['checked'] is True
+
+
+def test_update_invalid_user(client):
+    # UPDATE
+    user_data = {'checked': True}
+    response = client.patch('/users/10/', json=user_data)
+    assert response.json['detail'] == 'User not found for Id: 10'
+
+
+def test_delete_user_api(client):
+    # DELETE
+    response = client.delete('/users/1/')
+    assert response.status == '200 OK'
+
+
+def test_delete_invalid_user(client):
+    # DELETE
+    response = client.delete('/users/10/')
+    assert response.json['detail'] == 'User not found for Id: 10'

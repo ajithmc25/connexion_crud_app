@@ -22,14 +22,14 @@ def users_post():
 
     if existing_user is None:
         schema = UserSchema()
-        new_person = schema.load(json_data, session=db.session)
-        db.session.add(new_person)
+        new_user = schema.load(json_data, session=db.session)
+        db.session.add(new_user)
         db.session.commit()
-        data = schema.dump(new_person)
+        data = schema.dump(new_user)
 
         return data, 201
 
-    # Otherwise, nope, person exists already
+    # Otherwise, nope, user exists already
     else:
         abort(409, f"User {json_data['name']} exists already")
 
@@ -41,10 +41,10 @@ def user_get(userId):
         data = user_schema.dump(user)
         return data
     else:
-        abort(404, f'Person not found for Id: {userId}')
+        abort(404, f'User not found for Id: {userId}')
 
 
-def user_put(userId):
+def user_patch(userId):
     user = User.query.filter(User.id == userId).one_or_none()
     json_data = request.get_json()
 
@@ -59,7 +59,7 @@ def user_put(userId):
         return data, 200
 
     else:
-        abort(404, f"Person not found for Id: {userId}")
+        abort(404, f"User not found for Id: {userId}")
 
 
 def user_delete(userId):
