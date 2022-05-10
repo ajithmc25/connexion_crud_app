@@ -3,3 +3,4 @@ werkzeug==2.0.3  # https://github.com/osohq/oso/issues/1548
 Flask==2.1.2
 marshmallow-sqlalchemy==0.28.0
 flask-sqlalchemy==2.5.1
+mysqlclient==2.1.0
