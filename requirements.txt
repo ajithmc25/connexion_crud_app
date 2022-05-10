@@ -1,9 +1,5 @@
-connexion>=1.0.97
-werkzeug==2.0.3
-Flask>=0.10.1
-SQLAlchemy==1.3.23
-marshmallow==3.7.0
-marshmallow-sqlalchemy==0.23.1
-flask-marshmallow==0.13.0
-flask-sqlalchemy==2.1.0
-connexion[swagger-ui]
+connexion==2.13.1
+werkzeug==2.0.3  # https://github.com/osohq/oso/issues/1548
+Flask==2.1.2
+marshmallow-sqlalchemy==0.28.0
+flask-sqlalchemy==2.5.1

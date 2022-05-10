@@ -1,5 +1,4 @@
-from markupsafe import escape
-from markupsafe import Markup
+from markupsafe import Markup, escape
 from werkzeug.exceptions import abort as abort
 from werkzeug.utils import redirect as redirect
 
