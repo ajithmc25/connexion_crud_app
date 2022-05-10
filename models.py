@@ -9,6 +9,3 @@ class User(db.Model):
     age = db.Column(db.Numeric)
     description = db.Column(db.String(500))
     date = db.Column(db.DateTime)
-
-
-db.create_all()
