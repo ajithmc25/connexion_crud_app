@@ -6,6 +6,25 @@
 
 Follow these instructions to run this project locally
 
+# Requirements
+
+- Docker Compose 1.21.2+
+- Python 3.6+
+# Run with Docker Compose
+
+- Build image
+```bash
+docker-compose build
+```
+
+- Run application
+```bash
+docker-compose up
+```
+
+
+# Run in Virtual Environment
+
 - Create a virtual environment using python venv
 ```bash
 python -m venv env
@@ -21,7 +40,7 @@ source ./env/bin/activate
 ```bash
 pip install -r requirements.txt
 ```
-- Run API server
+- Run Application
 ```bash
 python server.py
 ```
